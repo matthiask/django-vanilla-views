@@ -40,7 +40,6 @@ class GenericModelView(View):
     # Suffix that should be appended to automatically generated template names.
     template_name_suffix = None
 
-
     # Queryset and object lookup
 
     def get_object(self):

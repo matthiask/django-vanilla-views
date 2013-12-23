@@ -29,6 +29,7 @@ Django vanilla views gives you all the same functionality, in a vastly simplifie
 
 Remember, even though the API has been greatly simplified, everything you're able to do with Django's existing implementation is also supported in django-vanilla-views."""
 
+
 def get_version(package):
     """
     Return package version as listed in `__version__` in `init.py`.

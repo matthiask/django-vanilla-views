@@ -4,8 +4,10 @@ from django.db import models
 from django.forms import fields, BaseForm, Form, ModelForm
 from django.http import Http404
 from django.test import RequestFactory, TestCase
-from vanilla import *
-import types
+from vanilla import (
+    View, TemplateView, ListView, DetailView,
+    FormView, CreateView, UpdateView, DeleteView
+)
 import warnings
 
 
@@ -53,10 +55,12 @@ class BaseTestCase(TestCase):
         # Ensure the keys all match.
         # Note that this style ensures we get nice descriptive failures.
         for key in expected.keys():
-            self.assertTrue(key in response.context_data,
+            self.assertTrue(
+                key in response.context_data,
                 "context missing key '%s'" % key)
         for key in response.context_data.keys():
-            self.assertTrue(key in expected,
+            self.assertTrue(
+                key in expected,
                 "context contains unexpected key '%s'" % key)
 
         # Ensure all the values match.
@@ -68,11 +72,13 @@ class BaseTestCase(TestCase):
                 expected_val = list(expected_val)
 
             if isinstance(expected_val, InstanceOf):
-                self.assertTrue(isinstance(val, expected_val.expected_type),
+                self.assertTrue(
+                    isinstance(val, expected_val.expected_type),
                     "context['%s'] contained type '%s', but expected type '%s'"
                     % (key, type(val), expected_val.expected_type))
             else:
-                self.assertEqual(val, expected_val,
+                self.assertEqual(
+                    val, expected_val,
                     "context['%s'] contained '%s', but expected '%s'" %
                     (key, val, expected_val))
 
@@ -297,6 +303,7 @@ class TestCreate(BaseTestCase):
             self.post(view, data={'text': 'example'})
             self.assertTrue(bool(warned))
 
+
 class TestUpdate(BaseTestCase):
     def test_update(self):
         create_instance(quantity=3)
@@ -359,6 +366,7 @@ class TestUpdate(BaseTestCase):
             warnings.simplefilter("always")
             self.post(view, pk=pk, data={'text': 'example'})
             self.assertTrue(bool(warned))
+
 
 class TestDelete(BaseTestCase):
     def test_delete(self):
